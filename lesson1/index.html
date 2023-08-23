@@ -12,87 +12,116 @@
 <body>
   <div class="container__starts"></div>
   <script>
-    // Задача 1. Сяючі зорі. Вказана кількість зірочок повинна з’являтися у випадковій частині екрану. 
-    // Кожна зірка (це екземпляр класу Star) з певним кроком і інтервалом збільшується від мінімального
-    // до максимального розміру. Як тільки досягнути максимального розміру зірочка повинна з’являтися
-    // у іншій випадковій позиції.
+    //  Задача 1. Створити клас Client
+    //  Властивості
+    //  ID
+    //  ПІБ
+    //  Кількість грошей на рахунку
+    //    Методи
+    //  Додавання грошей
+    //  Зняття грошей
+    //  ToString
 
-    class Star {
-      static maxY = window.innerHeight
-      static maxX = window.innerWidth;
-      static maxSize = 2;
+    //  На основі цього класу створити клас GoldenClient
+    //   Властивості
+    //    ID
+    //    ПІБ
+    //    Кількість грошей на рахунку
+    //////////////////////////////////////////////
+    //    Ліміт кредитних коштів
+    //    Відсоток за використання кредитних коштів
+    //   Методи
+    //   Додавання грошей
+    //   Зняття грошей
+    //   ToString
+    ////////////////////////////////////////
+    //  Визначення пені за використання кредитних коштів
 
-      constructor(star, numOfStars, interval) {
-        this.star = star
-        this.numOfStars = numOfStars
-        this.interval = interval
-        this.arr = []
-      }
-      getRandom(min, max) {
-        return min + Math.floor(Math.random() * (max - min + 1))
-      }
-
-      getPosition(starEl) {
-        starEl.style.top = this.getRandom(0, (Star.maxY - 100)) + 'px';
-        starEl.style.left = this.getRandom(0, (Star.maxX - 100)) + 'px';
-      }
-
-      // animateStar() {
-      //   this.arr.forEach(star => {
-      //     let elementSize = 1
-      //     let getInterval = setInterval(() => {
-      //       if (elementSize < Star.maxSize) {
-      //         elementSize += 0.5
-      //         star.style.transform = `scale(${elementSize})`;
-      //       } else {
-      //         clearInterval(getInterval)
-      //         star.style.transform = `scale(${1})`;
-      //         this.getPosition()
-      //         this.animateStar()
-      //       }
-      //     }, this.interval);
-      //   });
-      // }
-
-      animateStar(starEl) {
-        let elementSize = 1;
-        let getInterval = setInterval(() => {
-          if (elementSize < Star.maxSize) {
-            elementSize += 0.5;
-            starEl.style.transform = `scale(${elementSize})`;
-          } else {
-            clearInterval(getInterval);
-            starEl.style.transform = `scale(${1})`;
-            this.getPosition(starEl);
-            this.animateStar(starEl);
-          }
-        }, this.interval);
+    class Client {
+      constructor(id, name, balance) {
+        this.id = id
+        this.name = name
+        this.balance = balance
       }
 
-
-      render(container) {
-        for (let i = 0; i < this.numOfStars; i++) {
-          this.starEl = document.createElement('img')
-          this.starEl.setAttribute('src', this.star)
-          this.starEl.classList.add('starElement')
-          this.getPosition(this.starEl)
-          this.animateStar(this.starEl)
-          // this.arr.push(this.starEl)
-          // this.animateStar()
-          if (container) {
-            document.querySelector(container).append(this.starEl)
-          }
+      addCash(initCash) {
+        if (initCash > 0) {
+          return this.balance += initCash
         }
       }
+
+      widthrowCash(initCash) {
+        if (initCash <= this.balance) {
+          return this.balance -= initCash
+        }
+      }
+      toString() {
+        return `Client ID ${this.id}, name ${this.name}, balance ${this.balance}`
+      }
     }
 
-    let img = '../star.svg'
 
-    window.onload = function () {
-      let getStars = new Star(img, 5, 1000)
-      getStars.render('.container__starts')
+    class GoldenClient extends Client {
+      constructor(id, name, balance, creditLimit, interestRate) {
+        super(id, name, balance);
+        this.creditLimit = creditLimit;
+        this.interestRate = interestRate;
+      }
+      addCash(initCash) {
+        super.addCash(initCash)
+      }
+      widthrowCash(initCash) {
+        super.widthrowCash(initCash)
+      }
+      peniForCredit(usedCredit) {
+        return this.interestRate * usedCredit
+      }
+      toString() {
+        return ` ${super.toString()} , credit limit ${this.creditLimit},  процентна ставка по кредиту ${this.interestRate}`
 
+      }
     }
+
+    const client = new Client(228, "Jaake Smither", 3000);
+    console.log(client.toString());
+
+
+    const goldenClient1 = new GoldenClient(2, "Jane Smith", 22000, 1500, 5);
+    console.log(goldenClient1.toString());
+
+    // Задача 2. Створити клас Bank, у якому зберігається масив клієнтів. Виконати такі операції
+    // Вивести усіх простих клієнтів;
+    // Вивести усіх клієнтів GoldenClient;
+    // Знати сумарну кількість грошей на рахунку;
+
+    //////////////////////////////////////////////////
+
+
+    class Bank {
+      constructor(clients) {
+        this.clients = clients
+      }
+      getSimpleClients() {
+        return this.clients.filter(client => !(client instanceof GoldenClient));
+      }
+      getGoldenClients() {
+        return this.clients.filter(client => client instanceof GoldenClient);
+      }
+      totalCapital() {
+        return this.clients.reduce((prevSum, client) => prevSum + client.balance, 0)
+      }
+    }
+
+
+    let bank = new Bank(
+      [
+        client,
+        goldenClient1,
+      ]
+    )
+    console.log(bank.getSimpleClients())
+    console.log(bank.getGoldenClients())
+    console.log(bank.totalCapital())
 
   </script>
 </body>

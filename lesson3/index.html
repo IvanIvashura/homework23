@@ -15,44 +15,61 @@
     </div>
 
     <script>
-        //  Задача 3. На формі вводять 7 числових значень(вік, зріст, вага, заробітна плата, стаж,
-        //  номер відділу, порядковий номер).
-        //  Додати подію обробки події click на форму і якщо клік на внутрішньому input, 
-        //  то автоматично замінювати значення його на 0. Використати делегування
+        //  Задача 4. Користувач задає місяць навчання учня
+        // (перевіряти чи є числом, чи від 1 до 12, чи не канікули)
+        // та оцінку(перевіряти чи є числом, чи від 1 до 100).
+        // Вивести чи зможе він виправити оцінку(якщо оцінка погана і це не останній місяць у семестрі).
+        // Обробку усіх помилок зробити з використанням відповідних класів.
 
-        class InputForm {
-            constructor(inputNames) {
-                this.inputNames = inputNames
+
+        class Student {
+            #month
+            #score
+            constructor(month, score) {
+                this.month = month
+                this.score = score
             }
 
-            render(container) {
-                this.form = document.createElement('form');
-                this.form.classList.add('inputForm');
-                this.form.addEventListener('click', this.getNum.bind(this))
-                for (let i = 0; i < this.inputNames.length; i++) {
-                    const input = document.createElement('input');
-                    input.type = 'number';
-                    input.placeholder = this.inputNames[i]
-
-                    this.form.appendChild(input)
-                }
-                document.querySelector(container).append(this.form)
+            get score() {
+                return this.#score
             }
-            getNum(event) {
-                if (event.target.tagName == 'INPUT') {
-                    event.target.value = 0
+            get month() {
+                return this.#month
+            }
+
+            set score(value) {
+                if (typeof value === 'number' && value >= 1 && value <= 100) {
+                    this.#score = value
+                } else throw new Error('Некоректна оцінка')
+            }
+            set month(value) {
+                if (typeof value === 'number' || value >= 1 && value <= 12) {
+                    this.#month = value
+                } else throw new Error('Некоректний місяць')
+            }
+
+            getChangeScore() {
+                if (this.#score >= 50) {
+                    return false
                 }
+                if ([11, 2, 5, 6, 7, 8].includes(this.#month)) {
+                    return false
+                }
+                return true
+
             }
         }
-
-
-
         window.onload = function () {
-            let names = ['age', 'height', 'weight', 'money', 'exp', 'numberDepart', 'num'];
-            let ne = new InputForm(names)
-            ne.render('.container__form')
+            try {
+                getCalculate = new Student(4, 33)
+                let can = getCalculate.getChangeScore()
+                if (can) {
+                    document.write('You can change')
+                } else document.write('You dont need change')
+            } catch (error) {
+                document.write('you must write num')
+            }
         }
-
     </script>
 </body>
 

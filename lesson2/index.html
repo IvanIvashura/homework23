@@ -10,73 +10,174 @@
 
 </head>
 <script>
-    // Задача 2. Байрактар. З верхньої частини екрану у випадковій позиції по горизонталі з’являються танки,
-    // які їдуть вниз. При кліку на танк він вибухає і зникає з екрану. 
+    // Задача 3. Розробити Класи
+    //////////////////////////////////// House ////////////////////////////////////
 
-    class War {
-        static maxX = window.innerWidth;
-        constructor(numOfTanks) {
-            this.num = numOfTanks
+    // --- властивості-- -
+    //    Координата Х
+    //    Координата У
+    //    шлях до зображення
+    //    інтервал оновлення
+    //       --- методи-- -
+    //       генерування елемента розмітки
+    // оновлення через вказаний інтервал(збільшення або зменшення масштабу(об’єкт не рухається)
+
+
+
+    //////////////////////////////////// Dog  ////////////////////////////////////
+    // --- властивості-- -
+    //  Координата Х
+    //  Координата У
+    //  шлях до зображення
+    //  інтервал оновлення
+    // --- методи-- -
+    //     генерування елемента розмітки
+    //     оновлення через вказаний інтервал(випадкове зміщення по горизонталі(зміна координати Х))
+
+    /////////////////////////////////// Bird ////////////////////////////////////
+
+    // --- властивості-- -
+    // Координата Х
+    // Координата У
+    // шлях до зображення
+    // інтервал оновлення
+    // --- методи-- -
+    //           генерування елемента розмітки
+    //           оновлення через вказаний інтервал(випадкове переміщення у довільному напрямку)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    class Parent {
+        constructor(x, y, img, interval) {
+            this.positionX = x
+            this.positionY = y
+            this.img = img
+            this.interval = interval
         }
+
         getRandom(min, max) {
-            return min + Math.floor(Math.random() * (max - min + 1))
+            return Math.random() * (max - min) + min
         }
 
-        getPosition(starEl) {
-            starEl.style.top = 0;
-            starEl.style.left = this.getRandom(0, (War.maxX - 100)) + 'px';
-        }
-
-        getMove(tank) {
-            let maxTop = window.innerHeight
-            let currentTop = 0
-            let rand = this.getRandom(500, 1000)
-
+        getPosition(el) {
             setInterval(() => {
-                currentTop += 10
-                if (!tank.classList.contains('kill')) {
-                    tank.style.top = currentTop + 'px'
-                    if (currentTop >= maxTop) currentTop = 0
-                }
-            }, rand)
+                this.updatePosition(el)
+            }, this.interval);
         }
 
+        updatePosition(el) {
+        }
 
-        render(container) {
-            for (let i = 0; i < this.num; i++) {
-                this.tank = document.createElement('img')
-                this.tank.className = 'tank'
-                this.tank.setAttribute('src', `../tank.png`)
-                this.getPosition(this.tank)
-                this.getMove(this.tank)
-                this.tank.addEventListener('click', this.getBoom.bind(this, this.tank))
-                if (container) {
-                    document.querySelector(container).append(this.tank)
-
-                }
+        render(containerSelector) {
+            let image = document.createElement('img')
+            image.setAttribute('src', this.img)
+            image.classList.add('image')
+            this.image = image
+            this.image.style.left = this.positionX + 'px';
+            this.image.style.top = this.positionY + 'px';
+            this.getPosition(this.image)
+            if (containerSelector) {
+                document.querySelector(containerSelector).append(this.image)
             }
         }
+    }
 
-        getBoom(element) {
-            element.src = '../chmonya.webp';
-            element.style.transform = 'none';
-            element.classList.add('kill');
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    class House extends Parent {
+        constructor(x, y, img, interval) {
+            super(x, y, img, interval)
+        }
+        getRandom(min, max) {
+            return super.getRandom(min, max)
+        }
+
+        getPosition(el) {
+            super.getPosition(el)
+        }
+        updatePosition(el) {
+            const scale = this.getRandom(0.5, 2)
+            el.style.transform = `scale(${scale})`
+        }
+
+        render(containerSelector) {
+            super.render(containerSelector)
         }
     }
 
-    window.onload = function () {
-        let getWar = new War(5)
-        getWar.render('.container__war')
-        // if (getWar.render.tank.classList('kill') == 5) {
-        //     alert('Ви перемогли')
-        // }  хз як)))
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    class Dog extends Parent {
+        constructor(x, y, img, interval) {
+            super(x, y, img, interval)
+        }
+        getRandom(min, max) {
+            return super.getRandom(min, max)
+        }
+
+        getPosition(el) {
+            super.getPosition(el)
+        }
+        updatePosition(el) {
+            const x = this.getRandom(-50, 100)
+            el.style.left = x + 'px'
+        }
+
+        render(containerSelector) {
+            super.render(containerSelector)
+        }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    class Bird extends Parent {
+        constructor(x, y, img, interval) {
+            super(x, y, img, interval)
+        }
+        getRandom(min, max) {
+            return super.getRandom(min, max)
+        }
+
+        getPosition(el) {
+            super.getPosition(el)
+        }
+        updatePosition(el) {
+            const x = this.getRandom(-10, 100)
+            const y = this.getRandom(-10, 100)
+
+            el.style.left = x + 'px'
+            el.style.top = x + 'px'
+
+        }
+
+        render(containerSelector) {
+            super.render(containerSelector)
+        }
+    }
+    //  Підскажіть, будь ласка, навіщо там у у getRandom(min, max) {
+    //     return super.getRandom(min, max)
+    // }  RETURN? якщо у методі super вже є return? але без return  у поточному методі класу - код не працює
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    window.onload = function () {
+        let getHouse = new House(10, 10, `../house.svg`, 3000)
+        getHouse.render('.house__cont')
+
+
+        let getDog = new Dog(250, 0, `../Dog.svg.png`, 1000)
+        getDog.render('.dog__cont')
+
+        let getBird = new Bird(420, 300, `../cute-bird.svg`, 2000)
+        getBird.render('.bird__cont')
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
 
 
 <body>
-    <div class="container__war"></div>
+    <div class="cont">
+        <div class="house__cont"></div>
+        <div class="dog__cont"></div>
+        <div class="bird__cont"></div>
+    </div>
+
 </body>
 
 </html>
