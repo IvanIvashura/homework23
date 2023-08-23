@@ -10,9 +10,7 @@
 </head>
 
 <body>
-    <div class="container__form">
 
-    </div>
 
     <script>
         //  Задача 4. Користувач задає місяць навчання учня
@@ -20,6 +18,33 @@
         // та оцінку(перевіряти чи є числом, чи від 1 до 100).
         // Вивести чи зможе він виправити оцінку(якщо оцінка погана і це не останній місяць у семестрі).
         // Обробку усіх помилок зробити з використанням відповідних класів.
+
+        class IsNotNumber extends Error {
+            constructor() {
+                super()
+                this.message = 'Має бути числом'
+                this.name = 'IsNotNumber'
+                console.log(this.message);
+            }
+        }
+        class NotInRange extends Error {
+            constructor() {
+                super()
+                this.message = 'Має бути у вказаному діапазоні'
+                this.name = 'NotInRange'
+                console.log(this.message);
+            }
+        }
+        class IsNotStudyPeriod extends Error {
+            constructor() {
+                super()
+                this.message = 'Зараз канікули'
+                this.name = 'IsNotStudyPeriod'
+                console.log(this.message);
+
+            }
+        }
+
 
 
         class Student {
@@ -38,21 +63,33 @@
             }
 
             set score(value) {
-                if (typeof value === 'number' && value >= 1 && value <= 100) {
-                    this.#score = value
-                } else throw new Error('Некоректна оцінка')
-            }
-            set month(value) {
-                if (typeof value === 'number' || value >= 1 && value <= 12) {
-                    this.#month = value
-                } else throw new Error('Некоректний місяць')
+                if (typeof value !== 'number') {
+                    throw new IsNotNumber();
+                } else if (value < 1 || value > 100) {
+                    throw new NotInRange();
+                } else {
+                    this.#score = value;
+                }
             }
 
+            set month(value) {
+                if (typeof value !== 'number') {
+                    throw new IsNotNumber();
+                } else if (value < 1 || value > 12) {
+                    throw new NotInRange();
+                } else if (value === 6 || value === 7 || value === 8) {
+                    throw new IsNotStudyPeriod();
+                } else {
+                    this.#month = value;
+                }
+            }
+
+
             getChangeScore() {
-                if (this.#score >= 50) {
+                if (this.score >= 50) {
                     return false
                 }
-                if ([11, 2, 5, 6, 7, 8].includes(this.#month)) {
+                if ([11, 2, 5].includes(this.month)) {
                     return false
                 }
                 return true
@@ -61,13 +98,23 @@
         }
         window.onload = function () {
             try {
-                getCalculate = new Student(4, 33)
+                let getCalculate = new Student('n', 10)
                 let can = getCalculate.getChangeScore()
                 if (can) {
                     document.write('You can change')
-                } else document.write('You dont need change')
+                } else {
+                    document.write('You dont need change')
+                }
             } catch (error) {
-                document.write('you must write num')
+                if (error instanceof IsNotNumber) {
+                    document.write(error.message);
+                }
+                if (error instanceof NotInRange) {
+                    document.write(error.message);
+                }
+                if (error instanceof IsNotStudyPeriod) {
+                    document.write(error.message);
+                }
             }
         }
     </script>
