@@ -12,117 +12,22 @@
 <body>
   <div class="container__starts"></div>
   <script>
-    //  Задача 1. Створити клас Client
-    //  Властивості
-    //  ID
-    //  ПІБ
-    //  Кількість грошей на рахунку
-    //    Методи
-    //  Додавання грошей
-    //  Зняття грошей
-    //  ToString
+    // Задача 1. Визначити привітання у залежності від часу доби (Доброго дня, Доброго ранку, Доброго вечора)
 
-    //  На основі цього класу створити клас GoldenClient
-    //   Властивості
-    //    ID
-    //    ПІБ
-    //    Кількість грошей на рахунку
-    //////////////////////////////////////////////
-    //    Ліміт кредитних коштів
-    //    Відсоток за використання кредитних коштів
-    //   Методи
-    //   Додавання грошей
-    //   Зняття грошей
-    //   ToString
-    ////////////////////////////////////////
-    //  Визначення пені за використання кредитних коштів
+    let currentDate = new Date()
+    let currentHours = currentDate.getHours()
 
-    class Client {
-      constructor(id, name, balance) {
-        this.id = id
-        this.name = name
-        this.balance = balance
-      }
+    let greeting
 
-      addCash(initCash) {
-        if (initCash > 0) {
-          return this.balance += initCash
-        }
-      }
-
-      widthrowCash(initCash) {
-        if (initCash <= this.balance) {
-          return this.balance -= initCash
-        }
-      }
-      toString() {
-        return `Client ID ${this.id}, name ${this.name}, balance ${this.balance}`
-      }
+    if (currentHours < 12) {
+      greeting = 'Доброго ранку'
+    } else if (currentHours < 18 && currentHours > 12) {
+      greeting = 'Доброго дня'
+    } else {
+      greeting = 'Доброго вечора'
     }
 
-
-    class GoldenClient extends Client {
-      constructor(id, name, balance, creditLimit, interestRate) {
-        super(id, name, balance);
-        this.creditLimit = creditLimit;
-        this.interestRate = interestRate;
-      }
-      addCash(initCash) {
-        super.addCash(initCash)
-      }
-      widthrowCash(initCash) {
-        super.widthrowCash(initCash)
-      }
-      peniForCredit(usedCredit) {
-        return this.interestRate * usedCredit
-      }
-      toString() {
-        return ` ${super.toString()} , credit limit ${this.creditLimit},  процентна ставка по кредиту ${this.interestRate}`
-
-      }
-    }
-
-    const client = new Client(228, "Jaake Smither", 3000);
-    console.log(client.toString());
-
-
-    const goldenClient1 = new GoldenClient(2, "Jane Smith", 22000, 1500, 5);
-    console.log(goldenClient1.toString());
-
-    // Задача 2. Створити клас Bank, у якому зберігається масив клієнтів. Виконати такі операції
-    // Вивести усіх простих клієнтів;
-    // Вивести усіх клієнтів GoldenClient;
-    // Знати сумарну кількість грошей на рахунку;
-
-    //////////////////////////////////////////////////
-
-
-    class Bank {
-      constructor(clients) {
-        this.clients = clients
-      }
-      getSimpleClients() {
-        return this.clients.filter(client => !(client instanceof GoldenClient));
-      }
-      getGoldenClients() {
-        return this.clients.filter(client => client instanceof GoldenClient);
-      }
-      totalCapital() {
-        return this.clients.reduce((prevSum, client) => prevSum + client.balance, 0)
-      }
-    }
-
-
-    let bank = new Bank(
-      [
-        client,
-        goldenClient1,
-      ]
-    )
-    console.log(bank.getSimpleClients())
-    console.log(bank.getGoldenClients())
-    console.log(bank.totalCapital())
-
+    alert(greeting)
   </script>
 </body>
 

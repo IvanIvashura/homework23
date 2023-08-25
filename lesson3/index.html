@@ -13,110 +13,40 @@
 
 
     <script>
-        //  Задача 4. Користувач задає місяць навчання учня
-        // (перевіряти чи є числом, чи від 1 до 12, чи не канікули)
-        // та оцінку(перевіряти чи є числом, чи від 1 до 100).
-        // Вивести чи зможе він виправити оцінку(якщо оцінка погана і це не останній місяць у семестрі).
-        // Обробку усіх помилок зробити з використанням відповідних класів.
+        // Задача 3. Визначити поточну пору року
 
-        class IsNotNumber extends Error {
-            constructor() {
-                super()
-                this.message = 'Має бути числом'
-                this.name = 'IsNotNumber'
-                console.log(this.message);
-            }
+        let curDate = new Date()
+        let curMonth = curDate.getMonth()
+
+        let yearType
+
+        switch (curMonth) {
+            case 0:
+            case 1:
+            case 11:
+                yearType = 'зима'
+                break;
+            case 2:
+            case 3:
+            case 4:
+                yearType = 'весна'
+                break;
+            case 5:
+            case 6:
+            case 7:
+                yearType = 'літо'
+                break;
+            case 8:
+            case 9:
+            case 10:
+                yearType = 'літо'
+                break;
+            default:
+                yearType = 'невідомий'
+                break;
         }
-        class NotInRange extends Error {
-            constructor() {
-                super()
-                this.message = 'Має бути у вказаному діапазоні'
-                this.name = 'NotInRange'
-                console.log(this.message);
-            }
-        }
-        class IsNotStudyPeriod extends Error {
-            constructor() {
-                super()
-                this.message = 'Зараз канікули'
-                this.name = 'IsNotStudyPeriod'
-                console.log(this.message);
 
-            }
-        }
-
-
-
-        class Student {
-            #month
-            #score
-            constructor(month, score) {
-                this.month = month
-                this.score = score
-            }
-
-            get score() {
-                return this.#score
-            }
-            get month() {
-                return this.#month
-            }
-
-            set score(value) {
-                if (typeof value !== 'number') {
-                    throw new IsNotNumber();
-                } else if (value < 1 || value > 100) {
-                    throw new NotInRange();
-                } else {
-                    this.#score = value;
-                }
-            }
-
-            set month(value) {
-                if (typeof value !== 'number') {
-                    throw new IsNotNumber();
-                } else if (value < 1 || value > 12) {
-                    throw new NotInRange();
-                } else if (value === 6 || value === 7 || value === 8) {
-                    throw new IsNotStudyPeriod();
-                } else {
-                    this.#month = value;
-                }
-            }
-
-
-            getChangeScore() {
-                if (this.score >= 50) {
-                    return false
-                }
-                if ([11, 2, 5].includes(this.month)) {
-                    return false
-                }
-                return true
-
-            }
-        }
-        window.onload = function () {
-            try {
-                let getCalculate = new Student('n', 10)
-                let can = getCalculate.getChangeScore()
-                if (can) {
-                    document.write('You can change')
-                } else {
-                    document.write('You dont need change')
-                }
-            } catch (error) {
-                if (error instanceof IsNotNumber) {
-                    document.write(error.message);
-                }
-                if (error instanceof NotInRange) {
-                    document.write(error.message);
-                }
-                if (error instanceof IsNotStudyPeriod) {
-                    document.write(error.message);
-                }
-            }
-        }
+        alert(yearType)
     </script>
 </body>
 

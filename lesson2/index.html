@@ -10,174 +10,33 @@
 
 </head>
 <script>
-    // Задача 3. Розробити Класи
-    //////////////////////////////////// House ////////////////////////////////////
+    //  Задача 2. Вивести дату у форматі
+    //  “місяць – рік – вихідний / робочий”
 
-    // --- властивості-- -
-    //    Координата Х
-    //    Координата У
-    //    шлях до зображення
-    //    інтервал оновлення
-    //       --- методи-- -
-    //       генерування елемента розмітки
-    // оновлення через вказаний інтервал(збільшення або зменшення масштабу(об’єкт не рухається)
+    let getCurr = new Date()
+    let curMonth = getCurr.getMonth() + 1
+    let curYear = getCurr.getFullYear()
 
+    let curDay = getCurr.getDay()
 
+    let weekendOrWork
 
-    //////////////////////////////////// Dog  ////////////////////////////////////
-    // --- властивості-- -
-    //  Координата Х
-    //  Координата У
-    //  шлях до зображення
-    //  інтервал оновлення
-    // --- методи-- -
-    //     генерування елемента розмітки
-    //     оновлення через вказаний інтервал(випадкове зміщення по горизонталі(зміна координати Х))
-
-    /////////////////////////////////// Bird ////////////////////////////////////
-
-    // --- властивості-- -
-    // Координата Х
-    // Координата У
-    // шлях до зображення
-    // інтервал оновлення
-    // --- методи-- -
-    //           генерування елемента розмітки
-    //           оновлення через вказаний інтервал(випадкове переміщення у довільному напрямку)
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    class Parent {
-        constructor(x, y, img, interval) {
-            this.positionX = x
-            this.positionY = y
-            this.img = img
-            this.interval = interval
-        }
-
-        getRandom(min, max) {
-            return Math.random() * (max - min) + min
-        }
-
-        getPosition(el) {
-            setInterval(() => {
-                this.updatePosition(el)
-            }, this.interval);
-        }
-
-        updatePosition(el) {
-        }
-
-        render(containerSelector) {
-            let image = document.createElement('img')
-            image.setAttribute('src', this.img)
-            image.classList.add('image')
-            this.image = image
-            this.image.style.left = this.positionX + 'px';
-            this.image.style.top = this.positionY + 'px';
-            this.getPosition(this.image)
-            if (containerSelector) {
-                document.querySelector(containerSelector).append(this.image)
-            }
-        }
+    switch (curDay) {
+        case 0:
+        case 6:
+            weekendOrWork = 'Weekend'
+            break;
+        default:
+            weekendOrWork = 'work'
+            break;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    document.write(`Month: ${curMonth}, Year: ${curYear}, Day: ${weekendOrWork}`)
 
-    class House extends Parent {
-        constructor(x, y, img, interval) {
-            super(x, y, img, interval)
-        }
-        getRandom(min, max) {
-            return super.getRandom(min, max)
-        }
-
-        getPosition(el) {
-            super.getPosition(el)
-        }
-        updatePosition(el) {
-            const scale = this.getRandom(0.5, 2)
-            el.style.transform = `scale(${scale})`
-        }
-
-        render(containerSelector) {
-            super.render(containerSelector)
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    class Dog extends Parent {
-        constructor(x, y, img, interval) {
-            super(x, y, img, interval)
-        }
-        getRandom(min, max) {
-            return super.getRandom(min, max)
-        }
-
-        getPosition(el) {
-            super.getPosition(el)
-        }
-        updatePosition(el) {
-            const x = this.getRandom(-50, 100)
-            el.style.left = x + 'px'
-        }
-
-        render(containerSelector) {
-            super.render(containerSelector)
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    class Bird extends Parent {
-        constructor(x, y, img, interval) {
-            super(x, y, img, interval)
-        }
-        getRandom(min, max) {
-            return super.getRandom(min, max)
-        }
-
-        getPosition(el) {
-            super.getPosition(el)
-        }
-        updatePosition(el) {
-            const x = this.getRandom(-10, 100)
-            const y = this.getRandom(-10, 100)
-
-            el.style.left = x + 'px'
-            el.style.top = x + 'px'
-
-        }
-
-        render(containerSelector) {
-            super.render(containerSelector)
-        }
-    }
-    //  Підскажіть, будь ласка, навіщо там у у getRandom(min, max) {
-    //     return super.getRandom(min, max)
-    // }  RETURN? якщо у методі super вже є return? але без return  у поточному методі класу - код не працює
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    window.onload = function () {
-        let getHouse = new House(10, 10, `../house.svg`, 3000)
-        getHouse.render('.house__cont')
-
-
-        let getDog = new Dog(250, 0, `../Dog.svg.png`, 1000)
-        getDog.render('.dog__cont')
-
-        let getBird = new Bird(420, 300, `../cute-bird.svg`, 2000)
-        getBird.render('.bird__cont')
-    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
 
 
 <body>
-    <div class="cont">
-        <div class="house__cont"></div>
-        <div class="dog__cont"></div>
-        <div class="bird__cont"></div>
-    </div>
-
 </body>
 
 </html>

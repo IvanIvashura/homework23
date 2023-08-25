@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задача 2</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<form action="">
+    <input type="number" placeholder="year" class="year">
+    <input type="number" placeholder="month" class="month">
+    <input type="number" placeholder="day" class="day">
+</form>
+<button type="submit" class="get">Result</button>
+
+<div class="resu"></div>
+
+
+<body>
+
+
+    <script>
+        // Задача 5. Користувач вводить дату народження.Визначити, скільки йому повних років.
+
+        class RangeErrorYear extends Error {
+            constructor() {
+                super();
+                this.message = "Year must be between 1970 and 2023"
+                this.name = "between";
+            }
+        }
+        class RangeErrorMonth extends Error {
+            constructor() {
+                super();
+                this.message = "Month must be between 1 and 31"
+                this.name = "between";
+            }
+        }
+        class RangeErrorDay extends Error {
+            constructor() {
+                super();
+                this.message = "Day must be between 1 and 31"
+                this.name = "between";
+            }
+        }
+
+        window.onload = function () {
+            let res = document.querySelector('.resu')
+            document.querySelector('.get').addEventListener('click', fnc);
+            function fnc() {
+                try {
+                    let userYear = parseInt(document.querySelector('.year').value);
+                    let userMonth = parseInt(document.querySelector('.month').value);
+                    let userDay = parseInt(document.querySelector('.day').value);
+
+                    if (userYear > 2023 || userYear < 1970) {
+                        throw new RangeErrorYear();
+                    }
+                    if (userMonth > 12 || userMonth < 1) {
+                        throw new RangeErrorMonth()
+                    }
+                    if (userDay > 31 || userDay < 1) {
+                        throw new RangeErrorDay()
+                    }
+
+                    const birthDate = new Date(userYear, userMonth - 1, userDay);
+                    const currentDate = new Date();
+
+                    const years = currentDate.getFullYear() - birthDate.getFullYear();
+
+                    res.innerText = years.toString();
+                } catch (error) {
+                    res.innerText = error.message;
+                }
+            }
+        };
+
+    </script>
+</body>
+
+</html>
