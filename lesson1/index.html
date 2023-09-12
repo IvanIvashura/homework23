@@ -10,24 +10,114 @@
 </head>
 
 <body>
-  <div class="container__starts"></div>
   <script>
-    // Задача 1. Визначити привітання у залежності від часу доби (Доброго дня, Доброго ранку, Доброго вечора)
+    // let str = ['Petro228', 'Vasilisk7', 'Hena', 'car race', 'gun weapons', 'run form here', 'winter is coming', 'ded', 'did', 'tel num 7733']
 
-    let currentDate = new Date()
-    let currentHours = currentDate.getHours()
+    // Задача 1. Дано масив рядків. Вивести ті, у яких є цифри (використати метод test та регулярні вирази).
+    // let newStr = str.filter(el => /\d/ig.test(el))
+    // console.log(newStr)
 
-    let greeting
+    // Задача 2. Дано масив рядків.Вивести ті, у яких немає цифр.
+    // let newStr = str.filter(el => el.match(/^\D+$/ig))
+    // console.log(newStr)
 
-    if (currentHours < 12) {
-      greeting = 'Доброго ранку'
-    } else if (currentHours < 18 && currentHours > 12) {
-      greeting = 'Доброго дня'
-    } else {
-      greeting = 'Доброго вечора'
-    }
+    // Задача 3. Дано масив рядків.Вивести ті, у яких є голосні літери.
+    // let newStr = str.filter(el => el.match(/[aouie]/ig))
+    // console.log(newStr)
 
-    alert(greeting)
+
+    // Задача 4. Дано масив рядків.Вивести ті, у яких немає голосних літер.
+    // let newStr = str.filter(el => /^[^aouei]+$/ig.test(el))
+    // console.log(newStr)
+
+    // Задача 5. Дано масив рядків.Вивести ті, у яких є або цифра 1 або цифра 3.
+    // let newStr = str.filter(el => /(1|3)/.test(el))
+    // console.log(newStr)
+
+    // Задача 6. Дано рядок тексту, вивести усі числа, які є у тексті.
+    // let strr = 'Jhony has 4455 percent of 54543 '
+    // console.log(strr.match(/\d+/g))
+
+    // Задача 7. Дано рядок тексту. Знайти усі знаки пунктуації, які були використано.
+    // let strr = 'Jhony has 4455 percents\'s\ of = 54543!!!'
+
+    // console.log(strr.match(/[!.?<,\/\-'""]/gi))
+
+
+    // Задача 9. Дано рядок тексту. Перевірити, чи містить він дату у форматі dd.mm.yyyy (dd- день, mm- місяць, yyyy- рік).
+    // let strr = 'Jhony was born in 24.07.1999'
+    // console.log(strr.match(/\b\d{2}\.\d{2}\.\d{4}\b/g))
+
+
+
+
+    // Задача 8. Дано рядок тексту. Вивести усі складові, які розділені розділовими знаками.
+    // console.log(strr.match(/\w+\W+/gi))
+
+
+
+    // Задача 11. Визначити чи може бути рядок тексту номером банківської картки (приклад: «4142-3433-2323-3434»). Знайти усі такі номери.
+    // let strr = '4142-3433-2323-3434'
+    // console.log(strr.match(/\b\d{4}-\d{4}-\d{4}-\d{4}\b/g))
+
+
+    // Задача 10. Дано рядок тексту. Підрахувати кількість двоцифрових чисел у рядку.
+    // console.log(strr.match(/\b\d{2}\b/g))
+
+
+    // Задача 12. Дано адресу сайту. Визначити, чи є він урядовим (містить домен “gov”)
+    // let strr = 'https://www.kmu.gov.ua/'
+    // console.log(strr.match(/gov/gi))
+    // console.log(/gov/gi.test(strr))
+
+
+
+    // Задача 14. Дано номер телефону. Перевірити, чи є цей телефон телефоном з України (починаєтсья на «+38»)
+    // let str = '+38066622661'
+    // console.log((/^\+38/gi).test(str))
+
+    // Задача 13. Вибрати усі роки після 2021 року з отриманого повідомлення
+    // let str = '2000,2004,2008,1999,888,1232,2023,2022,2026'
+    // let strTest = str.match(/\b\d{4}\b/gi)
+
+    // console.log(strTest.filter((el) => parseInt(el) > 2021))
+
+
+    // Задача 15. Користувач вводить прізвище та ім’я в одному рядку через пробіл.  Замінити пробіл на дефіс.
+    // let str = 'My Name'
+    // let template = /\s/
+    // console.log(str.replace(template, '-'))
+
+
+    // Задача 16. Користувач вводить дату у форматі «день.місяць.рік». Отримати рядкове представлення дати у форматі «день/місяць/рік»
+    // let str = '20.10.2001'
+    // let template = /\./g
+    // let test = (/\b\d{2}\.\d{2}\.\d{4}\b/g).test(str)
+    // if (test) {
+    //   console.log(str.replace(template, '/'))
+    // }
+
+    // Задача 17. Користувач вводить день (номер дня (0-6) або «sun,mon,tue,wed,thu,fri,sat»). Визначити, чи  є це день вихідним
+
+    // let userNum = '2'
+    // let userDay = 'sun'
+
+    // let test = /^(sat|sun|1|7)$/i
+
+    // if (test.test(userNum)) {
+    //   console.log('yes')
+    // } else {
+    //   console.log('no')
+
+    // }
+
+    // if (test.test(userDay)) {
+    //   console.log('yes')
+    // } else {
+    //   console.log('no')
+
+    // }
+
   </script>
 </body>
 
